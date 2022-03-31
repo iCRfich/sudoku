@@ -24,6 +24,11 @@ function createTable(){
                 checkSection();
                 checkWictory();
             });
+            input.addEventListener("focus", function(){
+                selectRefresh();
+                selected(this)
+
+            });
             td.appendChild(input);
             tr.appendChild(td);
 
@@ -150,7 +155,7 @@ function easyComplexity(){
     //23 hard
     refresh();
     clear();
-    FillCells(40);
+    FillCells(32);
     usedIndexes = [];
     checkSection(true);checkRow();checkColumn();
 }
@@ -203,36 +208,52 @@ Array.prototype.shuffle = function() {
   }
   
   function getSudoku() {
-    var sudoku = [];
-    var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    sudoku.push(arr);
-    for (var i = 1; i < 9; i++) {
+    var sudoku = baseTable = [
+            [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            [4, 5, 6, 7, 8, 9, 1, 2, 3],
+            [7, 8, 9, 1, 2, 3, 4, 5, 6],
+            [2, 3, 4, 5, 6, 7, 8, 9, 1],
+            [5, 6, 7, 8, 9, 1, 2, 3, 4],
+            [8, 9, 1, 2, 3, 4, 5, 6, 7],
+            [3, 4, 5, 6, 7, 8, 9, 1, 2],
+            [6, 7, 8, 9, 1, 2, 3, 4, 5],
+            [9, 1, 2, 3, 4, 5, 6, 7, 8]
+        ];
+    // var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    // sudoku.push(arr);
+    // for (var i = 1; i < 9; i++) {
   
-      while (sudoku.length <= i) {
-        var newarr = arr.shuffle();
-        var b = false;
-        for (var j = 0; j < arr.length; j++) {
-          for (var k = 0; k < i; k++) {
-            if (sudoku[k].indexOf(newarr[j]) == j) b = true;
-          }
+    //   while (sudoku.length <= i) {
+    //     var newarr = arr.shuffle();
+    //     var b = false;
+    //     for (var j = 0; j < arr.length; j++) {
+    //       for (var k = 0; k < i; k++) {
+    //         if (sudoku[k].indexOf(newarr[j]) == j) b = true;
+    //       }
   
-        }
-        if (!b) {
-          sudoku.push(newarr);
-        }
-      }
-    }
+    //     }
+    //     if (!b) {
+    //       sudoku.push(newarr);
+    //     }
+    //   }
+    // }
     return sudoku;
   }
   
-const baseTable = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [4, 5, 6, 7, 8, 9, 1, 2, 3],
-    [7, 8, 9, 1, 2, 3, 4, 5, 6],
-    [2, 3, 4, 5, 6, 7, 8, 9, 1],
-    [5, 6, 7, 8, 9, 1, 2, 3, 4],
-    [8, 9, 1, 2, 3, 4, 5, 6, 7],
-    [3, 4, 5, 6, 7, 8, 9, 1, 2],
-    [6, 7, 8, 9, 1, 2, 3, 4, 5],
-    [9, 1, 2, 3, 4, 5, 6, 7, 8]
-]
+
+
+function selectRefresh(){
+    $('input').removeClass(["selected-row",'selected-column','selected-sector','selected-cell']);
+}
+function selected(element){
+
+    let table = document.getElementById('sudoku');
+    for (let i = 0; i < 9; i++) {
+        table.rows[i].cells[element.dataset.column].children[0].classList.add('selected-row');
+        table.rows[element.dataset.row].cells[i].children[0].classList.add('selected-column');
+    }
+    $("." + element.classList[0]).addClass('selected-sector');
+    element.classList.add('selected-cell');
+   // console.log( $('.sector3').last(),element.classList[0]) ;
+}
+

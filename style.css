@@ -1,5 +1,5 @@
 td{
-    border: 1px solid black;
+    border: 2px solid black;
     width: 50px;
     height: 50px;
     text-align: center;
@@ -10,40 +10,39 @@ td > input{
    height: 100%;
    font-size: x-large;
    text-align: center;
+   border: none;
 }
 
 #sudoku{
-    border-collapse: collapse;
+    /* border-collapse: separate; */
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .fail{
-    background-color: rgba(255, 0, 128, 0.589);
+    background-color: rgba(255, 0, 128, 0.589) !important;
 }
-/*
-.sector1{
+
+#set-up-but{
+    margin-top: 40px;
+    border: 1px solid black;
+    width: 40%;
+}
+
+.selected-sector{
+    background-color: rgba(27, 116, 189, 0.459);
+}
+
+.selected-cell{
+    background-color: rgb(4, 141, 253);
+}
+
+.selected-row, .selected-column{
+    background-color: rgba(27, 116, 189, 0.836);
 
 }
-.sector2{
-    background-color: rgb(0, 167, 50);
+
+.container{
+    text-align: center;  
 }
-.sector3{
-    background-color: rgb(189, 147, 10);
-}
-.sector4{
-    background-color: rgb(247, 0, 255);
-}
-.sector5{
-    background-color: rgba(255, 0, 128, 0.589);
-}
-.sector6{
-    background-color: rgb(255, 0, 0);
-}
-.sector7{
-    background-color: rgb(195, 0, 255);
-}
-.sector8{
-    background-color: rgb(0, 255, 234);
-}
-.sector9{
-    background-color: rgb(179, 255, 0);
-} */
