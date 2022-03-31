@@ -1,0 +1,49 @@
+td{
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+td > input{
+   width: 100%;
+   height: 100%;
+   font-size: x-large;
+   text-align: center;
+}
+
+#sudoku{
+    border-collapse: collapse;
+}
+
+.fail{
+    background-color: rgba(255, 0, 128, 0.589);
+}
+/*
+.sector1{
+
+}
+.sector2{
+    background-color: rgb(0, 167, 50);
+}
+.sector3{
+    background-color: rgb(189, 147, 10);
+}
+.sector4{
+    background-color: rgb(247, 0, 255);
+}
+.sector5{
+    background-color: rgba(255, 0, 128, 0.589);
+}
+.sector6{
+    background-color: rgb(255, 0, 0);
+}
+.sector7{
+    background-color: rgb(195, 0, 255);
+}
+.sector8{
+    background-color: rgb(0, 255, 234);
+}
+.sector9{
+    background-color: rgb(179, 255, 0);
+} */
