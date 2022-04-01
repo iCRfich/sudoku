@@ -1,9 +1,9 @@
-td{
-    border: 2px solid black;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
+body{
+    background: url("https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000") no-repeat;
+    background-size: auto;
+}
+.jumbotron {
+    background: none;
 }
 td > input{
    width: 100%;
@@ -14,14 +14,13 @@ td > input{
 }
 
 #sudoku{
-    /* border-collapse: separate; */
-
     margin-left: auto;
     margin-right: auto;
+    background: white;
 }
 
-.fail{
-    background-color: rgba(255, 0, 128, 0.589) !important;
+label{
+    color:white
 }
 
 #set-up-but{
@@ -30,19 +29,71 @@ td > input{
     width: 40%;
 }
 
-.selected-sector{
-    background-color: rgba(27, 116, 189, 0.459);
+#selected-cell, .same-number{
+    background-color: rgba(4, 141, 253, 0.325) !important;
 }
 
-.selected-cell{
-    background-color: rgb(4, 141, 253);
-}
-
-.selected-row, .selected-column{
-    background-color: rgba(27, 116, 189, 0.836);
+.selected-row, .selected-column, .selected-sector{
+    background-color: rgba(93, 89, 89, 0.142);
 
 }
 
 .container{
     text-align: center;  
+
+}
+
+.fail{
+    background-color: rgba(210, 30, 30, 0.532) !important;
+}
+
+tr:first-child td {
+	border-top-color: black ;
+}
+tr:nth-child(3n) td {
+    border-bottom-color: black;
+}
+td {
+	border: 1px solid lightgrey;
+	height: 2em;
+	width: 2em;
+}
+td:first-child {
+	border-left-color: black;
+}
+td:nth-child(3n) {
+	border-right-color: black;
+}
+
+#help{
+    width: 70px;
+    height: 70px;
+    background: url("https://thumbs.dreamstime.com/b/lightbulb-icon-flat-vector-illustration-design-lightbulb-icon-flat-vector-illustration-design-isolated-white-background-158417394.jpg");
+    background-size: cover; 
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type='radio']:checked:after{
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -3px;
+    left: -1px;
+    position: relative;
+    background-color: #000000;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid rgb(255, 255, 255);
+
+}
+
+@media screen and (min-width:1200px) {
+    td {
+        height: 4em;
+        width: 4em;
+    }
 }

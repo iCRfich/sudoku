@@ -5,6 +5,22 @@ $(document).ready(function(){
 
 });
 
+const area_count = 3;
+const baseTable = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [4, 5, 6, 7, 8, 9, 1, 2, 3],
+    [7, 8, 9, 1, 2, 3, 4, 5, 6],
+    [2, 3, 4, 5, 6, 7, 8, 9, 1],
+    [5, 6, 7, 8, 9, 1, 2, 3, 4],
+    [8, 9, 1, 2, 3, 4, 5, 6, 7],
+    [3, 4, 5, 6, 7, 8, 9, 1, 2],
+    [6, 7, 8, 9, 1, 2, 3, 4, 5],
+    [9, 1, 2, 3, 4, 5, 6, 7, 8]
+];
+
+
+let sudoku = [];
+
 function createTable(){
     let table = document.getElementById('sudoku');
     
@@ -13,6 +29,7 @@ function createTable(){
         for (let j = 0; j < 9; j++) {
             let td = document.createElement('td');
             let input = document.createElement('input');
+            input.setAttribute('type','text');
             input.dataset.column = j;
             input.dataset.row = i;
             fillSectors(i, j, input);
@@ -54,6 +71,7 @@ function fillSectors(i, j ,td){
 }
 
 function checkNumber(evt , element){
+  if(!element.readOnly){
     if(evt.keyCode < 49 || evt.keyCode > 57) {
         evt.preventDefault();
         return false;
@@ -63,6 +81,7 @@ function checkNumber(evt , element){
         evt.preventDefault();
         return false;
     }
+  }
 }
 
 function refresh(element){
@@ -149,21 +168,21 @@ function checkRow(gen = false){
  }
 
 
-function easyComplexity(){
-    //40 block easy
-    //30 block med
-    //23 hard
+function setUp(){
+
+    let complexity = $('input:radio[name=complexity]:checked').val();
     refresh();
     clear();
-    FillCells(32);
+    FillCells(complexity);
     usedIndexes = [];
     checkSection(true);checkRow();checkColumn();
 }
 
 
 function clear(){
-    $('input').each(function(){
+    $('input:text').each(function(){
         this.value = '';
+        this.readOnly = false;
     });
 }
 
@@ -171,89 +190,147 @@ function FillCells(num){
     let input = document.getElementsByTagName('input');
     let array = getSudoku();
     let numbers = [];
-    for (let i = 0; i <  40; i++) {
+    for (let i = 0; i < num; i++) {
         getRandomNumber();
     }
 
-    for (let j = 0; j < usedIndexes.length-1; j++) {
+    for (let j = 0; j < num; j++) {
         
       try{
-        input[usedIndexes[j]].value = array[input[usedIndexes[j]].dataset.row][input[usedIndexes[j]].dataset.column];
+       input[usedIndexes[j]].value = array[input[usedIndexes[j]].dataset.row][input[usedIndexes[j]].dataset.column];
+       input[usedIndexes[j]].readOnly = true;
       }
       catch(e){
         console.log(e);
       }
     }
 
-    //console.log(usedIndexes);
-    console.log(baseTable);
+
 }
 
 let usedIndexes = [];
 function getRandomNumber() {
-    let newNumber = Math.floor(Math.random() * 81 + 1);
+    let newNumber = Math.floor(Math.random() * 81);
     if(usedIndexes.indexOf(newNumber) === -1)usedIndexes.push(newNumber);
     else getRandomNumber();
   }
 
-//not mine
-Array.prototype.shuffle = function() {
-    var arr = this.valueOf();
-    var ret = [];
-    while (ret.length < arr.length) {
-      var x = arr[Math.floor(Number(Math.random() * arr.length))];
-      if (!(ret.indexOf(x) >= 0)) ret.push(x);
-    }
-    return ret;
-  }
-  
+
+
   function getSudoku() {
-    var sudoku = baseTable = [
-            [1, 2, 3, 4, 5, 6, 7, 8, 9],
-            [4, 5, 6, 7, 8, 9, 1, 2, 3],
-            [7, 8, 9, 1, 2, 3, 4, 5, 6],
-            [2, 3, 4, 5, 6, 7, 8, 9, 1],
-            [5, 6, 7, 8, 9, 1, 2, 3, 4],
-            [8, 9, 1, 2, 3, 4, 5, 6, 7],
-            [3, 4, 5, 6, 7, 8, 9, 1, 2],
-            [6, 7, 8, 9, 1, 2, 3, 4, 5],
-            [9, 1, 2, 3, 4, 5, 6, 7, 8]
-        ];
-    // var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    // sudoku.push(arr);
-    // for (var i = 1; i < 9; i++) {
-  
-    //   while (sudoku.length <= i) {
-    //     var newarr = arr.shuffle();
-    //     var b = false;
-    //     for (var j = 0; j < arr.length; j++) {
-    //       for (var k = 0; k < i; k++) {
-    //         if (sudoku[k].indexOf(newarr[j]) == j) b = true;
-    //       }
-  
-    //     }
-    //     if (!b) {
-    //       sudoku.push(newarr);
-    //     }
-    //   }
-    // }
+    sudoku = baseTable;
+
+    let function_mix = [
+        area_rows_swap(),
+        area_column_swap(),
+        rows_swap(),
+        column_swap(),
+        transpose()
+    ];
+
+    for (let i = 0; i < 30; i++) {
+        function_mix[Math.floor(Math.random() * 5)];
+    }
+
     return sudoku;
   }
   
 
 
 function selectRefresh(){
-    $('input').removeClass(["selected-row",'selected-column','selected-sector','selected-cell']);
+    $('input').removeClass(["selected-row",'selected-column','selected-sector','same-number']);
+    $('#selected-cell').attr("id","");
 }
 function selected(element){
 
-    let table = document.getElementById('sudoku');
-    for (let i = 0; i < 9; i++) {
-        table.rows[i].cells[element.dataset.column].children[0].classList.add('selected-row');
-        table.rows[element.dataset.row].cells[i].children[0].classList.add('selected-column');
-    }
-    $("." + element.classList[0]).addClass('selected-sector');
-    element.classList.add('selected-cell');
-   // console.log( $('.sector3').last(),element.classList[0]) ;
+        let table = document.getElementById('sudoku');
+        for (let i = 0; i < 9; i++) {
+            table.rows[i].cells[element.dataset.column].children[0].classList.add('selected-row');
+            table.rows[element.dataset.row].cells[i].children[0].classList.add('selected-column');
+        }
+        $("." + element.classList[0]).addClass('selected-sector');
+        element.id = 'selected-cell';
+    
+        findSameNumber(element.value)
+      
 }
 
+function transpose(){
+    let row_count = sudoku.length;
+    let column_count = sudoku[0].length;
+    let transpose_array = [];
+    for (let i = 0; i < column_count; i++)
+     { transpose_array[i] = [];
+       for (let j = 0; j < row_count; j++) transpose_array[i][j] = sudoku[j][i];
+     }
+    sudoku = transpose_array;
+}
+
+function area_rows_swap(){
+    let area = Math.floor(Math.random() * area_count);
+	let line1 = Math.floor(Math.random() * area_count);
+	
+    let rand1 = area * area_count + line1
+
+	let line2 = Math.floor(Math.random() * area_count);
+
+	while (line1 === line2){
+        line2 = Math.floor(Math.random() * area_count);
+    }
+
+    let rand2 = area * area_count + line2
+
+    let row1 = sudoku[rand2];
+    let row2 = sudoku[rand1];
+    sudoku[rand1] = row1;
+    sudoku[rand2] = row2;
+}
+
+function area_column_swap(){
+    transpose();
+    area_rows_swap();
+    transpose();
+}
+
+function rows_swap(){
+    let area1 = Math.floor(Math.random() * area_count);
+
+    let area2 = Math.floor(Math.random() * area_count);
+	
+
+	while (area1 == area2){
+        area2 = Math.floor(Math.random() * area_count);
+    }
+
+    for (let i = 0; i < 3; i++) {
+        let rand1 = area1 * area_count + i;
+        let rand2 = area2 * area_count + i;
+
+        let row1 = sudoku[rand2];
+        let row2 = sudoku[rand1];
+        sudoku[rand1] = row1;
+        sudoku[rand2] = row2;
+    }
+
+    return sudoku;
+}
+
+function column_swap(sudoku){
+    transpose(sudoku);
+    rows_swap(sudoku);
+    transpose(sudoku);
+}
+
+function getHelp(){
+    let selected_cell = document.getElementById('selected-cell');
+    if(selected_cell){
+        selected_cell.value = sudoku[selected_cell.dataset.row][selected_cell.dataset.column];
+    }
+    else alert('select cell for help')
+}
+
+function findSameNumber(value){
+    $("input:text").each(function(){
+        if(this.value === value &&  this.value !== '') this.classList.add('same-number');
+    });
+}

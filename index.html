@@ -13,11 +13,26 @@
     <title>Document</title>
 </head>
 <body>
-       <div class="container">
+    <div class="jumbotron  d-flex align-items-center">
+       <div class="container ">
             <table id="sudoku" >
             </table>
 
-            <button class="btn btn-success" id="set-up-but" onclick="easyComplexity()">Set up</button>
+            <div id="complexity-block">
+                <label for="easy-complexity">Easy</label>
+                <input type="radio" name="complexity" id="easy-complexity" value="35" checked>
+
+                <label for="medium-complexity">Medium</label>
+                <input type="radio" name="complexity" id="medium-complexity" value="30">
+
+                <label for="hard-complexity">Hard</label>
+                <input type="radio" name="complexity" id="hard-complexity" value="25">
+
+            </div>
+
+            <button id="help" onclick="getHelp()"></button>
+            <button class="btn btn-success" id="set-up-but" onclick="setUp()">Set up</button>
        </div>
+    </div>
 </body>
 </html>
